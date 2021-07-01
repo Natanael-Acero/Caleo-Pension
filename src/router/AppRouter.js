@@ -5,23 +5,33 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
+import { CajonesLibres } from '../components/dashboard/CajonesLibres'
+import { GestCajones } from '../components/cajones/GestCajones';
+import { GestUsuarios } from '../components/usuarios/GestUsuarios';
 import { AuthRouter } from '../router/AuthRouter'
-import { CajonesLibres } from '../components/dashboard/CajonesLibres';
-import { Navbar } from '../components/shared/Navbar'
+import ProtectedRoute from './ProtectedRoute';
+import { Perfil } from '../components/account/Perfil';
+
 
 export const AppRouter = () => {
+
     return (
+
         <Router>
             <div>
                 <Switch>
+
                     <Route path="/auth" component={AuthRouter} />
 
-                    <Route exact path='/dashboard' >
-                        <Navbar />
-                        <div className="container">
-                            <CajonesLibres />
-                        </div>
-                    </Route>
+                    <ProtectedRoute exact path='/dashboard' component={CajonesLibres} role={null} />
+
+                    <ProtectedRoute exact path='/account/perfil' component={Perfil} role={null} />
+
+                    <ProtectedRoute exact path='/gestionUsuarios' component={GestUsuarios} role={true} />
+
+                    <ProtectedRoute exact path='/gestionCajones' component={GestCajones} role={true} />
+
+                    <ProtectedRoute exact path='/rentar/:_id' component={GestCajones} role={true} />
 
                     <Redirect to="/auth/login" />
 
