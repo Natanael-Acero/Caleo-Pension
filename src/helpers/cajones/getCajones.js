@@ -24,6 +24,7 @@ export const getCajonesId = async (id) => {
 
     const url = `http://localhost:3000/api/cajon/obtenerId/${id}`
     const respuesta = await fetch(url);
+    console.log(respuesta)
     const { cont } = await respuesta.json();
 
     const { cajon } = cont;

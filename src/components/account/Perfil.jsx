@@ -5,15 +5,72 @@ import { useHistory } from 'react-router';
 import './style.css';
 import axios from 'axios';
 import { Enviroments } from '../../enviroments/enviroments.url';
-
+import FormData from 'form-data';
+import ImageUploading from 'react-images-uploading';
+import noImage from '../../assets/images/no-image.png';
 export const Perfil = () => {
+    const history = useHistory();
     let decoded = localStorage.getItem('authorization');
     if (localStorage.getItem("authorization")) {
         decoded = jwt_decode(localStorage.getItem("authorization"));
     } else {
         history.push('/');
     }
-    console.log(decoded.usuario);
+
+
+    const [images, setImages] = React.useState([{ data_url: `${Enviroments.urlBack}/api/imagen?ruta=personas&img=${decoded.usuario.strImg}` ? `${Enviroments.urlBack}/api/imagen?ruta=personas&img=${decoded.usuario.strImg}` : noImage }]);
+    const maxNumber = 69;
+    const onChange = (imageList, addUpdateIndex) => {
+        if (imageList[0].file.type == 'image/jpeg' || imageList[0].file.type == 'image/png' || imageList[0].file.type == 'image/jpg') {
+            Swal.fire({
+                title: 'Sí deseas cambiar la imagen deberas inicar sesión nuevamente',
+                text: '¿Estas seguro?',
+                imageUrl: imageList[0].data_url,
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: `Confirmar`,
+                reverseButtons: true
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const formD = new FormData;
+                    formD.append('archivo', imageList[0].file, imageList[0].file.name);
+                    await axios.put(`${Enviroments.urlBack}/api/carga/?ruta=personas&id=${decoded.usuario._id}`, formD).then(res => {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            text: res.data.msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        setImages(imageList);
+                        history.push('/auth/login');
+                    }).catch(err => {
+                        console.log(err);
+                    })
+
+                } else if (result.isDismissed) {
+                    setImages([{ data_url: `${Enviroments.urlBack}/api/imagen?ruta=personas&img=${decoded.usuario.strImg}` ? `${Enviroments.urlBack}/api/imagen?ruta=personas&img=${decoded.usuario.strImg}` : noImage }])
+                }
+            })
+        } else {
+            Swal.fire({
+                icon: 'error',
+                text: 'El tipo de imagen no es admitido',
+                timer: 1500
+            })
+        }
+
+
+
+    };
+
+
     const [data, setData] = useState(decoded.usuario);
     const [actualizar, setActualizar] = useState(false)
     const [reload, setReload] = useState(false);
@@ -28,16 +85,23 @@ export const Perfil = () => {
 
 
     const arrayTemas = [
-        { color: '#0d6efd', obscuro: true },
-        { color: '#198754', obscuro: true },
-        { color: '#00CED1', obscuro: false },
-        { color: '#ADD8E6', obscuro: false },
-        { color: '#212529', obscuro: true },
-        { color: '#ffc107', obscuro: false },
+        { color: '#e66465', obscuro: true },
+        { color: '#3EB489', obscuro: true },
         { color: '#808080', obscuro: true },
-        { color: '#ffff', obscuro: false }]
+        { color: '#212529', obscuro: true },
+        { color: '#008080', obscuro: true },
+        { color: '#ADD8E6', obscuro: false },
+        { color: '#dc3545', obscuro: true },
+        { color: '#ffff', obscuro: false },
+    ]
+    const arrayTemasDegradado = [
+        { color: 'linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)', obscuro: true },
+        { color: 'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)', obscuro: false },
+        { color: 'linear-gradient(90deg, #9ebd13 0%, #008552 100%)', obscuro: false },
+        { color: 'radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,0.29735644257703087) 100%)', obscuro: false },
+    ]
 
-    const history = useHistory();
+
     const cambiarColor = (color, obscuro) => {
         Swal.fire({
             title: 'Sí deseas cambiar el tema deberas inicar sesión nuevamente',
@@ -111,7 +175,6 @@ export const Perfil = () => {
 
 
 
-
     return (
         <div className="row">
             <div className="col-md-4 col-sm-12 col-lg-4">
@@ -121,7 +184,36 @@ export const Perfil = () => {
                             <div className="card-body">
                                 <h3 className="mb-3">Perfil</h3>
                                 <div className="text-center mb-5">
-                                    <img src={`${Enviroments.urlBack}/api/imagen?ruta=personas&img=${decoded.usuario.strImg}`} style={{ maxWidth: '220px', width: '400px', borderRadius: '20%' }} className="img-fluid" alt="..." />
+                                    <ImageUploading
+                                        multiple
+                                        value={images}
+                                        onChange={onChange}
+                                        maxNumber={maxNumber}
+                                        dataURLKey="data_url"
+                                    >
+                                        {({
+                                            imageList,
+                                            onImageUpload,
+                                            onImageRemoveAll,
+                                            onImageUpdate,
+                                            onImageRemove,
+                                            isDragging,
+                                            dragProps,
+                                        }) => (
+                                            <div>
+                                                {imageList.map((image, index) => (
+                                                    <div key={index} className="image-item">
+                                                        <img id="output" src={image['data_url']} style={{ maxWidth: '80%', width: '80%', borderRadius: '20%' }} className="img-fluid" alt="..." />
+                                                        <p></p>
+                                                        <i class="fas fa-chevron-circle-up changeImg fa-lg" style={{ cursor: 'pointer' }} onClick={() => onImageUpdate(index)} data-bs-toggle="tooltip" data-bs-placement="end" title="Cambiar Imagen"></i>
+                                                    </div>
+
+                                                ))}
+
+                                            </div>
+                                        )}
+                                    </ImageUploading>
+
                                 </div>
 
                                 <div className="card mb-5" >
@@ -144,13 +236,28 @@ export const Perfil = () => {
                                 <h3>Información General</h3>
                                 <hr />
                                 <h5>Cambiar Tema</h5>
-                                {
-                                    arrayTemas.map((colores) => {
-                                        return (
-                                            <span key={colores.color} onClick={() => cambiarColor(colores.color, colores.obscuro)} className="badge m-1" style={{ background: colores.color, cursor: 'pointer', color: colores.obscuro == false ? 'black' : 'white', border: 'solid 0.1px' }}><i className="fas fa-tint"></i></span>
-                                        )
-                                    })
-                                }
+                                <li className="list-group-item">Colores solidos
+                                    <p>
+                                        {
+                                            arrayTemas.map((colores, index) => {
+                                                return (
+                                                    <span key={colores.color} onClick={() => cambiarColor(colores.color, colores.obscuro)} className="badge m-1" style={{ background: colores.color, cursor: 'pointer', color: colores.obscuro == false ? 'black' : 'white', border: 'solid 0.1px black' }}><i className="fas fa-tint"></i></span>
+                                                )
+                                            })
+                                        }
+                                    </p>
+                                </li>
+                                <li className="list-group-item">Colores con degradado
+                                    <p>
+                                        {
+                                            arrayTemasDegradado.map((colores, index) => {
+                                                return (
+                                                    <span key={colores.color} onClick={() => cambiarColor(colores.color, colores.obscuro)} className="badge m-1" style={{ background: colores.color, cursor: 'pointer', color: colores.obscuro == false ? 'black' : 'white', border: 'solid 0.1px black' }}><i className="fas fa-tint"></i></span>
+                                                )
+                                            })
+                                        }
+                                    </p>
+                                </li>
                             </div>
                         </div>
                     </div>

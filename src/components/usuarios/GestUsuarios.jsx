@@ -86,7 +86,7 @@ export const GestUsuarios = () => {
     return (
         <Fragment>
             <div className="card shadow mt-4">
-                <div className="card-body">
+                <div className="card-body" style={{ maxHeight: '50%', overflow: 'scroll' }}>
                     <div className="row">
                         <div className="col-md-4 col-lg-4 col-sm-12 mt-3">
                             {
@@ -128,7 +128,7 @@ export const GestUsuarios = () => {
                                                             <td className="text-center"><span className={persona.blnAdmin == false ? "badge rounded-pill bg-dark" : 'badge rounded-pill bg-danger'}>{persona.blnAdmin == true ? 'Admin' : 'Usuario'}</span></td>
                                                             <td className="text-center">{(persona.blnActivo === true) ? <p style={{ cursor: 'pointer' }} onClick={() => estatus(persona._id, persona.blnActivo, persona.strNombre, persona.strPrimerApellido)}><i className="fa fa-check-circle fa-lg" style={{ color: 'green', cursor: 'pointer' }} ></i></p> : <p onClick={() => estatus(persona._id, persona.blnActivo, persona.strNombre, persona.strPrimerApellido)}><i className="fa fa-times-circle fa-lg" style={{ color: 'red', cursor: 'pointer' }}></i></p>}</td>
                                                             <td className="text-center">
-                                                                <button disabled={mostrar} className="btn btn-primary btn-sm" onClick={() => actualizar(persona._id, persona)} > <i className="far fa-edit" ></i></button>
+                                                                <button disabled={mostrar} className="btn btn-outline-primary  p-1 btn-sm" onClick={() => actualizar(persona._id, persona)} > <i className="far fa-edit" ></i></button>
                                                             </td>
                                                         </tr>
                                                     )
