@@ -27,7 +27,7 @@ function ProtectedRoute({ component: Component, role, ...restOfProps }) {
     return (
         <>
             <Navbar setReload={setReload} reload={reload} />
-            <div className="container">
+            <div className="container container-buttom">
                 <Route
                     {...restOfProps}
                     render={(props) =>

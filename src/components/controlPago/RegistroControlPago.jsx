@@ -84,13 +84,13 @@ export const RegistroControlPago = ({ setReload }) => {
                 {
                     cargar &&
                     <div className="form-group mb-3">
-                        <label htmlFor="idVehiculo">Asignar persona</label>
+                        <label htmlFor="idVehiculo">Asignar Vehiculo</label>
                         <select class="form-select form-select-sm" required name="idVehiculo" onChange={handleInputChange} aria-label="Default select example" >
                             <option value={''} defaultValue={'Seleccione Vehiculo...'}>Seleccione vehiculo ...</option>
                             {
                                 vehiculo.map(coche => {
                                     return (
-                                        <option key={coche._id} value={coche._id} >{coche.strModelo}-{coche.strMarca} </option>
+                                        <option key={coche._id} value={coche._id} >{coche.strMarca}-{coche.strModelo} </option>
                                     )
                                 })
                             }

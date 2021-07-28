@@ -297,31 +297,38 @@ export const Perfil = () => {
                                         <input type="text" className="form-control" aria-label="Sizing example input" name="strNombre" value={data.strNombre} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled={actualizar == false} />
                                     </div>
                                     <div className="row">
-                                        <div className="col-6">
+                                        <div className="col-md-6">
                                             <div className="input-group input-group-sm mb-3">
                                                 <span className="input-group-text" id="inputGroup-sizing-sm">Primer Apellido </span>
                                                 <input type="text" className="form-control" aria-label="Sizing example input" name="strPrimerApellido" value={data.strPrimerApellido} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled={actualizar == false} />
                                             </div>
                                         </div>
-                                        <div className="col-6">
+                                        <div className="col-md-6">
                                             <div className="input-group input-group-sm mb-3">
                                                 <span className="input-group-text" id="inputGroup-sizing-sm">Segundo Apellido</span>
                                                 <input type="text" className="form-control" aria-label="Sizing example input" name="strSegundoApellido" value={data.strSegundoApellido} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled={actualizar == false} />
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="input-group input-group-sm mb-3">
-                                        <span className="input-group-text" id="inputGroup-sizing-sm">Dirección</span>
-                                        <input type="text" className="form-control" aria-label="Sizing example input" name="strDireccion" value={data.strDireccion} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled={actualizar == false} />
-                                    </div>
-                                    <div className="input-group input-group-sm mb-3">
-                                        <span className="input-group-text" id="inputGroup-sizing-sm">Télefono</span>
-                                        <input type="text" className="form-control" aria-label="Sizing example input" name="nmbTelefono" value={data.nmbTelefono} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled={actualizar == false} />
-                                    </div>
-                                    <div className="input-group input-group-sm mb-3">
-                                        <span className="input-group-text" id="inputGroup-sizing-sm">Rol</span>
-                                        <input type="text" className="form-control" aria-label="Sizing example input" name="blnAdmin" value={data.blnAdmin === true ? 'Administrador' : 'Usuario'} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled />
+                                    <div className="row">
+                                        <div className="col-md-4">
+                                            <div className="input-group input-group-sm mb-3">
+                                                <span className="input-group-text" id="inputGroup-sizing-sm">Dirección</span>
+                                                <input type="text" className="form-control" aria-label="Sizing example input" name="strDireccion" value={data.strDireccion} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled={actualizar == false} />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="input-group input-group-sm mb-3">
+                                                <span className="input-group-text" id="inputGroup-sizing-sm">Télefono</span>
+                                                <input type="text" className="form-control" aria-label="Sizing example input" name="nmbTelefono" value={data.nmbTelefono} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled={actualizar == false} />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <div className="input-group input-group-sm mb-3">
+                                                <span className="input-group-text" id="inputGroup-sizing-sm">Rol</span>
+                                                <input type="text" className="form-control" aria-label="Sizing example input" name="blnAdmin" value={data.blnAdmin === true ? 'Administrador' : 'Usuario'} onChange={handleInputChange} aria-describedby="inputGroup-sizing-sm" disabled />
+                                            </div>
+                                        </div>
                                     </div>
                                 </form>
 

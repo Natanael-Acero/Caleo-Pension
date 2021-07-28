@@ -26,7 +26,7 @@ export const Navbar = ({ setReload, reload }) => {
 
 
     return (
-        <div style={{ borderBottom: '3px solid #d1d1d1', background: color }}>
+        <div className="fixed-top" style={{ borderBottom: '2px solid #d1d1d1', background: color }}>
             <nav className={colorLetras == 'true' ? "navbar navbar-dark  navbar-expand-lg" : "navbar navbar-light  navbar-expand-lg"} id="navbarChico" style={{ background: color }}>
                 <div className="container-fluid" style={{ marginRight: '50px' }}>
                     <Link className="navbar-brand" to='/dashboard'> <button className={colorLetras == 'true' ? 'btn btn-outline-warning btn-sm' : 'btn btn-outline-dark btn-sm'}>CALEO</button> </Link>
