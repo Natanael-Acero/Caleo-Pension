@@ -93,6 +93,7 @@ export const Perfil = () => {
         { color: '#ADD8E6', obscuro: false },
         { color: '#dc3545', obscuro: true },
         { color: '#ffff', obscuro: false },
+        { color: '#06d79c', obscuro: false },
     ]
     const arrayTemasDegradado = [
         { color: 'linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)', obscuro: true },
@@ -125,6 +126,7 @@ export const Perfil = () => {
     const editarData = () => {
         setActualizar(true);
     }
+
     const actualizarData = async () => {
         try {
             Swal.fire({

@@ -3,27 +3,46 @@ import React, { useEffect, useState } from 'react';
 import { Enviroments } from '../../enviroments/enviroments.url';
 import Swal from 'sweetalert2'
 import axios from 'axios';
+import moment from 'moment';
 export const RegistroControlPago = ({ setReload }) => {
+    const [ultimoPago, setUltimoPago] = useState();
     const initialState = {
         nmbCantidad: '470',
         dteFechaPagoFin: '',
-        dteFechaPagoInicio: '',
+        dteFechaPagoInicio: ultimoPago != null ? ultimoPago.dteFechaPagoFin : '',
         idVehiculo: '',
         blnActivo: true
     };
     const [cargar, setCargar] = useState(true)
     const [data, setData] = useState(initialState);
     const [vehiculo, setVehiculo] = useState([]);
-
     const handleInputChange = ({ target }) => {
         setData({
             ...data,
             [target.name]: target.value
         });
+
+        if (target.name == 'idVehiculo') {
+            axios.get(`http://localhost:3000/api/ultimoPago/${target.value}`).then(res => {
+                setUltimoPago(res.data.cont.ultimo)
+                console.log(moment(res.data.cont.ultimo.dteFechaPagoFin).add(1, 'days').format('YYYY-MM-DD'));
+
+            }).catch(err => {
+                console.log(err);
+            })
+        }
     }
     const reset = () => {
         setData(initialState);
     }
+
+    useEffect(() => {
+        setData({
+            ...data,
+            ['dteFechaPagoInicio']: ultimoPago != null ? moment(ultimoPago.dteFechaPagoFin).add(1, 'days').format('YYYY-MM-DD') : '',
+            ['dteFechaPagoFin']: ultimoPago != null ? moment(ultimoPago.dteFechaPagoFin).add(1, 'months').add(1, 'days').format('YYYY-MM-DD') : ''
+        });
+    }, [ultimoPago])
 
 
 
@@ -42,9 +61,10 @@ export const RegistroControlPago = ({ setReload }) => {
             setReload(reload => !reload);
             setData(initialState);
         }).catch(err => {
+            console.log(err.response.data.msg);
             Swal.fire({
-                title: 'Información registrada exitosamente',
-                text: err,
+                title: 'Error al registrar el pago',
+                text: err.response.data.msg,
                 icon: 'error',
                 showConfirmButton: true,
             })
@@ -63,24 +83,6 @@ export const RegistroControlPago = ({ setReload }) => {
             <h5 className="card-title">Registro de Pagos</h5>
             <hr />
             <form onSubmit={handleSubmit} className="was-validated">
-                <div className="form-group mb-3">
-                    <label htmlFor="nmbCantidad">Precio a pagar:</label>
-                    <input type="number" className="form-control form-control-sm" id="nmbCantidad" placeholder="Cantidad a pagar" name="nmbCantidad"
-                        value={data.nmbCantidad}
-                        onChange={handleInputChange} required />
-                </div>
-                <div className="form-group mb-3">
-                    <label htmlFor="dteFechaPagoInicio">Fecha inicio del pago:</label>
-                    <input type="date" className="form-control form-control-sm" id="dteFechaPagoInicio" name="dteFechaPagoInicio"
-                        value={data.dteFechaPagoInicio}
-                        onChange={handleInputChange} required />
-                </div>
-                <div className="form-group mb-3">
-                    <label htmlFor="dteFechaPagoFin">Fecha fin del pago:</label>
-                    <input type="date" className="form-control form-control-sm" id="dteFechaPagoFin" name="dteFechaPagoFin"
-                        value={data.dteFechaPagoFin}
-                        onChange={handleInputChange} min={data.dteFechaPagoInicio} disabled={data.dteFechaPagoInicio == ''} required />
-                </div>
                 {
                     cargar &&
                     <div className="form-group mb-3">
@@ -97,7 +99,24 @@ export const RegistroControlPago = ({ setReload }) => {
                         </select>
                     </div>
                 }
-
+                <div className="form-group mb-3">
+                    <label htmlFor="dteFechaPagoInicio">Fecha inicio del pago:</label>
+                    <input type="date" className="form-control form-control-sm" id="dteFechaPagoInicio" name="dteFechaPagoInicio"
+                        value={data.dteFechaPagoInicio}
+                        onChange={handleInputChange} required />
+                </div>
+                <div className="form-group mb-3">
+                    <label htmlFor="dteFechaPagoFin">Fecha fin del pago:</label>
+                    <input type="date" className="form-control form-control-sm" id="dteFechaPagoFin" name="dteFechaPagoFin"
+                        value={data.dteFechaPagoFin}
+                        onChange={handleInputChange} min={moment(data.dteFechaPagoInicio).add(1, 'days').format('YYYY-MM-DD')} disabled={data.dteFechaPagoInicio == ''} required />
+                </div>
+                <div className="form-group mb-3">
+                    <label htmlFor="nmbCantidad">Precio a pagar:</label>
+                    <input type="number" className="form-control form-control-sm" id="nmbCantidad" placeholder="Cantidad a pagar" name="nmbCantidad"
+                        value={data.nmbCantidad}
+                        onChange={handleInputChange} required />
+                </div>
                 <hr />
                 <div className=" form-group row text-right" >
                     <div className="col-12 text-center">

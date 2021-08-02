@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import './App.css'
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Enviroments } from '../../enviroments/enviroments.url';
 
 
 export const RegistroVehiculo = ({ setReload }) => {
-
+    const { _id } = useParams();
     const history = useHistory();
     const initialState = {
         strMarca: '',
@@ -16,7 +16,7 @@ export const RegistroVehiculo = ({ setReload }) => {
         strDescripcion: '',
         strPlacas: '',
         strColor: '#000000',
-        idCajon: 0,
+        idCajon: _id,
         idPersona: 0,
         blnActivo: true
     }
@@ -181,7 +181,13 @@ export const RegistroVehiculo = ({ setReload }) => {
                     <div className="form-group mb-3" >
                         <label htmlFor="strPlacas">Asignar cajón</label>
                         <select class="form-select form-select-sm" required name="idCajon" onChange={handleInputChange} aria-label="Default select example" >
-                            <option value={''} defaultValue={'Seleccione cajón...'} >Seleccione cajón ...</option>
+                            {cajon.map(res => {
+                                if (res._id == _id) {
+                                    return (
+                                        <option key={_id} value={_id != undefined ? _id : ''}>{res.nmbCajon ? res.nmbCajon : ''}</option>
+                                    )
+                                }
+                            })}
                             {
                                 cajon.map(cajones => {
                                     return (
