@@ -42,7 +42,7 @@ export const RegistrarPersona = ({ setReload }) => {
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    if (window.location.href == 'http://localhost:3001/auth/register') {
+                    if (window.location.pathname == '/auth/register') {
                         history.push('/auth/login');
                     }
                 })

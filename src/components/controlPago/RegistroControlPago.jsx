@@ -23,7 +23,7 @@ export const RegistroControlPago = ({ setReload }) => {
         });
 
         if (target.name == 'idVehiculo') {
-            axios.get(`http://localhost:3000/api/ultimoPago/${target.value}`).then(res => {
+            axios.get(`${Enviroments.urlBack}/api/ultimoPago/${target.value}`).then(res => {
                 setUltimoPago(res.data.cont.ultimo)
                 console.log(moment(res.data.cont.ultimo.dteFechaPagoFin).add(1, 'days').format('YYYY-MM-DD'));
 

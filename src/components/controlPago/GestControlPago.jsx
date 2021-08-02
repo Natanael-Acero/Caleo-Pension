@@ -23,7 +23,7 @@ export const GestControlPago = () => {
     const getPagosId = async (coche) => {
         setCocheSelect(coche);
         // console.log(cocheSelect);
-        await axios.get(`http://localhost:3000/api/controlPago/obtenerIdVehiculo/${coche._id.vehiculo[0]._id}`).then(res => {
+        await axios.get(`${Enviroments.urlBack}/api/controlPago/obtenerIdVehiculo/${coche._id.vehiculo[0]._id}`).then(res => {
             setPagosCoche(res.data.cont.controlPago)
             const datos = res.data.cont.controlPago;
             // console.log(datos);
@@ -35,7 +35,7 @@ export const GestControlPago = () => {
         }).catch(err => {
             console.log(err);
         })
-        await axios.get(`http://localhost:3000/api/ultimoPago/${coche._id.vehiculo[0]._id}`).then(res => {
+        await axios.get(`${Enviroments.urlBack}/api/ultimoPago/${coche._id.vehiculo[0]._id}`).then(res => {
             let last = moment(res.data.cont.ultimo.dteFechaPagoFin).diff(Date.now(), 'days');
             setUltimoPago(last)
 
@@ -157,50 +157,53 @@ export const GestControlPago = () => {
                 <div className="modal-dialog modal-lg" >
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">{cocheSelect ? cocheSelect._id.vehiculo[0].strMarca : ''}-{cocheSelect ? cocheSelect._id.vehiculo[0].strModelo : ''}<i class="fas fa-chevron-right fa-sm"></i>{cocheSelect ? cocheSelect._id.persona[0].strNombre : ''}{cocheSelect ? cocheSelect._id.persona[0].strPrimerApellido : ''}</h5>
+                            <h5 className="modal-title" id="exampleModalLabel">{cocheSelect ? cocheSelect._id.vehiculo[0].strMarca : ''}-{cocheSelect ? cocheSelect._id.vehiculo[0].strModelo : ''} <i class="fas fa-chevron-right fa-sm m-1"></i>{cocheSelect ? cocheSelect._id.persona[0].strNombre : ''}{cocheSelect ? cocheSelect._id.persona[0].strPrimerApellido : ''}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body" >
                             {!mostrar ?
                                 <>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr className="text-center">
-                                                <th scope="col">N° Pago</th>
-                                                <th scope="col">Fecha Inicio</th>
-                                                <th scope="col">Fecha Fin</th>
-                                                <th scope="col">Cantidad</th>
-                                                <th scope="col">Editar</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                pagosCoche.length < 1 ?
-                                                    <div className="alert alert-primary text-center" role="alert">
-                                                        No existe informacion para mostrar
-                                                    </div> :
-                                                    <>
-                                                        {pagosCoche.map((pago, index) => {
-                                                            return (
-                                                                <tr key={pago._id} className="text-center">
-                                                                    <td>{index + 1}</td>
-                                                                    <td>
-                                                                        {pago.dteFechaPagoInicio ? moment(pago.dteFechaPagoInicio).add(1, 'days').format('LL') : 'N/A'}
-                                                                    </td>
-                                                                    <td>
-                                                                        {pago.dteFechaPagoFin ? moment(pago.dteFechaPagoFin).add(1, 'days').format('LL') : 'N/A'}
-                                                                    </td>
+                                    <div className="tableFixHead">
+                                        <table className="table table-striped "  >
+                                            <thead>
+                                                <tr className="text-center">
+                                                    <th scope="col">N° Pago</th>
+                                                    <th scope="col">Fecha Inicio</th>
+                                                    <th scope="col">Fecha Fin</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col">Editar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody >
+                                                {
+                                                    pagosCoche.length < 1 ?
+                                                        <div className="alert alert-primary text-center" role="alert">
+                                                            No existe informacion para mostrar
+                                                        </div> :
+                                                        <>
+                                                            {pagosCoche.map((pago, index) => {
+                                                                return (
+                                                                    <tr key={pago._id} className="text-center">
+                                                                        <td>{index + 1}</td>
+                                                                        <td>
+                                                                            {pago.dteFechaPagoInicio ? moment(pago.dteFechaPagoInicio).add(1, 'days').format('LL') : 'N/A'}
+                                                                        </td>
+                                                                        <td>
+                                                                            {pago.dteFechaPagoFin ? moment(pago.dteFechaPagoFin).add(1, 'days').format('LL') : 'N/A'}
+                                                                        </td>
 
-                                                                    <td>{pago.nmbCantidad}</td>
-                                                                    <td className="text-center"><button disabled={mostrar} className="btn btn-outline-primary  p-1 btn-sm" onClick={() => actualizar(pago._id, pago)} > <i className="far fa-edit" ></i></button></td>
-                                                                </tr>
-                                                            )
-                                                        })}
-                                                    </>
-                                            }
+                                                                        <td>{pago.nmbCantidad}</td>
+                                                                        <td className="text-center"><button disabled={mostrar} className="btn btn-outline-primary  p-1 btn-sm" onClick={() => actualizar(pago._id, pago)} > <i className="far fa-edit" ></i></button></td>
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                        </>
+                                                }
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                     <div>
                                         <p class="text-justify" style={{ fontSize: '12px' }}>Tiempo {ultimoPago < 0 ? 'atrasado' : 'restante'}: <label style={{ color: ultimoPago < 0 ? 'red' : 'green' }}> {ultimoPago < 0 ? ultimoPago * -1 : ultimoPago} días</label></p>
                                     </div>
@@ -211,10 +214,7 @@ export const GestControlPago = () => {
                             }
 
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => editarDataCancel()}>Close</button>
-                            <button type="button" className="btn btn-primary">Save changes</button>
-                        </div>
+
                     </div>
                 </div>
             </div>

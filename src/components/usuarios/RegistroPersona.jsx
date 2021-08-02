@@ -64,7 +64,7 @@ export const RegistroPersona = ({ setReload }) => {
                 ...data,
                 strPais: clave
             });
-            const res = await axios.get(`http://localhost:3000/api/paises/estados/${clave}`);
+            const res = await axios.get(`${Enviroments.urlBack}/api/paises/estados/${clave}`);
             setEstados(res.data.cont.estadosMexico)
         } catch (error) {
             setEstados(error.response.data.cont.estadosMexico)
@@ -108,9 +108,7 @@ export const RegistroPersona = ({ setReload }) => {
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        if (window.location.href == 'http://localhost:3001/auth/register') {
-                            history.push('/auth/login');
-                        }
+                        history.push('/auth/login');
                     })
             } catch (error) {
                 setReload(reload => !reload);
