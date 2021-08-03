@@ -270,7 +270,7 @@ export const GestVehicular = () => {
                                                 {
                                                     !blnFotos &&
                                                     <div className="row ">
-                                                        <div className="col-4 " style={{ borderRight: '1px solid' }}>
+                                                        <div className="col-md-4 " style={{ borderRight: '1px solid' }}>
                                                             <h5 className="mb-3">Vehiculo</h5>
                                                             <hr />
                                                             <p><strong>Marca:</strong>{info.strMarca}</p>
@@ -278,13 +278,13 @@ export const GestVehicular = () => {
                                                             <p><strong>Año:</strong>{info.nmbAño}</p>
                                                             <p><strong>Placas:</strong>{info.strPlacas}</p>
                                                         </div>
-                                                        <div className="col-4" style={{ borderRight: '1px solid' }}>
+                                                        <div className="col-md-4" style={{ borderRight: '1px solid' }}>
                                                             <h5 className="mb-3">Cajón</h5>
                                                             <hr />
                                                             <p><strong>Numero de Cajón:</strong>{info.cajon.length > 0 ? info.cajon[0].nmbCajon : 'N/A'}</p>
                                                             <p><strong>Descripción:</strong>{info.cajon.length > 0 ? info.cajon[0].strDescripcion : 'N/A'}</p>
                                                         </div>
-                                                        <div className="col-4">
+                                                        <div className="col-md-4">
                                                             <h5 className="mb-3">Propietario</h5>
                                                             <hr />
                                                             <p><strong>Nombre:</strong>{info.persona.length > 0 ? info.persona[0].strNombre + ' ' + info.persona[0].strPrimerApellido : 'N/A'}</p>

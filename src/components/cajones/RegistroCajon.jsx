@@ -16,19 +16,30 @@ export const RegistroCajon = ({ setReload }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         postCajones(formValues).then((data) => {
-            setReload(reload => !reload);
-            reset();
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                text: data.msg,
-                showConfirmButton: false,
-                timer: 1500
-            })
+            if (data.ok == false) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    text: data.msg,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            } else {
+                setReload(reload => !reload);
+                reset();
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    text: data.msg,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+
 
         }).catch((error) => {
             Swal.fire({
-                position: 'top-end',
+                position: 'center',
                 icon: 'error',
                 text: error.msg,
                 showConfirmButton: false,

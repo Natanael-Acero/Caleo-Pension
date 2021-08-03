@@ -108,7 +108,7 @@ export const RegistroPersona = ({ setReload }) => {
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        history.push('/auth/login');
+
                     })
             } catch (error) {
                 setReload(reload => !reload);

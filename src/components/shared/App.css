@@ -41,6 +41,9 @@
      #navbarGrande{
          display: none;
      }
+     .footer-inline{
+       display: none;
+     }
       #navbarChico{
        display:inline;
      }

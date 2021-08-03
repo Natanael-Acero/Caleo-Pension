@@ -8,8 +8,8 @@ import './App.css'
 
 
 export const Navbar = ({ setReload, reload }) => {
-    const [color, setColor] = useState(localStorage.getItem('color'));
-    const colorLetras = localStorage.getItem('obscuro');
+    const [color, setColor] = useState(localStorage.getItem('color') ? localStorage.getItem('color') : 'black');
+    const colorLetras = localStorage.getItem('obscuro') ? localStorage.getItem('obscuro') : 'true';
     const history = useHistory();
     let decoded = localStorage.getItem('authorization');
     if (localStorage.getItem("authorization")) {
@@ -19,7 +19,7 @@ export const Navbar = ({ setReload, reload }) => {
     }
 
     useEffect(() => {
-        setColor(localStorage.getItem('color'))
+        setColor(localStorage.getItem('color') ? localStorage.getItem('color') : 'black')
     }, [reload])
 
 
@@ -58,14 +58,15 @@ export const Navbar = ({ setReload, reload }) => {
                                     </li>
                                     <li className="nav-item m-1">
                                         <button className="btn btn-outline-secondary btn-sm btn-block w-100" type="button" >
-                                            <Link className="nav-link" to='' onClick={() => (history.push(`/auth/login`), localStorage.removeItem('authorization'))} > <i className="fa fa-sign-out-alt m-1"></i>Salir</Link>
+                                            <Link className="nav-link" to='/account/perfil'  > <i className="fa fa-user m-1"></i>Perfil</Link>
                                         </button>
                                     </li>
                                     <li className="nav-item m-1">
                                         <button className="btn btn-outline-secondary btn-sm btn-block w-100" type="button" >
-                                            <Link className="nav-link" to='/account/perfil'  > <i className="fa fa-user m-1"></i>Perfil</Link>
+                                            <Link className="nav-link" to='' onClick={() => (history.push(`/auth/login`), localStorage.removeItem('authorization'))} > <i className="fa fa-sign-out-alt m-1"></i>Salir</Link>
                                         </button>
                                     </li>
+
                                 </ul>
                                 :
                                 <ul className="navbar-nav m-2" >

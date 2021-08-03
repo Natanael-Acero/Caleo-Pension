@@ -13,8 +13,8 @@ export const Footer = () => {
         history.push('/');
     }
     const [weather, setWeather] = useState();
-    const color = localStorage.getItem('color');
-    const colorLetras = localStorage.getItem('obscuro');
+    const color = localStorage.getItem('color') ? localStorage.getItem('color') : 'black';
+    const colorLetras = localStorage.getItem('obscuro') ? localStorage.getItem('obscuro') : 'true';
     const getWeather = async () => {
         await axios.get(`https://api.openweathermap.org/data/2.5/find?lat=21.8858107&lon=-102.326319&cnt=1&appid=57d1ae31db0f78a34bab0084c8aa796c&units=metric`).then(res => {
             setWeather(res.data.list[0].main.temp)
@@ -29,7 +29,7 @@ export const Footer = () => {
         getWeather()
     }, [])
     return (
-        <div>
+        <div className="footer-inline">
             <div class="text-muted footer-flex p-1" style={{ background: color }}>
                 <div class="footer-copyright text-center " style={{ color: colorLetras == 'true' ? 'white' : 'black' }}>
                     <div className="row">
