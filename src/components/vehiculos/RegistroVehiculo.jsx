@@ -41,6 +41,7 @@ export const RegistroVehiculo = ({ setReload }) => {
                     setCargar(false)
                     setReload(reload => !reload);
                     setData(initialState);
+                    history.push('/rentar/undefined')
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
