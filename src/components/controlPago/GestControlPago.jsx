@@ -1,13 +1,15 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { RegistroControlPago } from './RegistroControlPago';
-import { ActualizarControlPago } from './ActualizarControPago';
+import { EliminarControlPago } from './EliminarControlPago';
 import { Enviroments } from '../../enviroments/enviroments.url';
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import * as moment from 'moment'
 
+
 import './App.css'
 export const GestControlPago = () => {
+    const [idCoche, setIdCoche] = useState();
     const [reload, setReload] = useState(false)
     const [data, setData] = useState([]);
     const [totalAuto, setTotalAuto] = useState();
@@ -21,10 +23,15 @@ export const GestControlPago = () => {
     });
 
     const getPagosId = async (coche) => {
+        setIdCoche(coche);
         setCocheSelect(coche);
         // console.log(cocheSelect);
         await axios.get(`${Enviroments.urlBack}/api/controlPago/obtenerIdVehiculo/${coche._id.vehiculo[0]._id}`).then(res => {
             setPagosCoche(res.data.cont.controlPago)
+            const pagos = res.data.cont.controlPago;
+            if (pagos.length < 1) {
+                document.getElementById('exampleModal').click()
+            }
             const datos = res.data.cont.controlPago;
             // console.log(datos);
             let sum = [];
@@ -69,12 +76,17 @@ export const GestControlPago = () => {
             }).catch((err) => {
                 console.log(err);
             })
+
     }, [reload]);
 
     useEffect(() => {
         setMostrarActualizar({
             mostrar: false
         })
+        if (idCoche != undefined) {
+            getPagosId(idCoche);
+        }
+
     }, [reload])
 
 
@@ -118,7 +130,7 @@ export const GestControlPago = () => {
                                                             <td >{coche._id.cajon ? coche._id.cajon[0].nmbCajon : ''}</td>
                                                             <td>{coche._id.persona ? coche._id.persona[0].strNombre : ''} {coche._id.persona ? coche._id.persona[0].strPrimerApellido : ''}</td>
                                                             <td ><strong>$</strong>{coche.cantidad}.00</td>
-                                                            <td>{coche.nmbPagosRealizados}</td>
+                                                            <td style={{ color: 'green' }}>{coche.nmbPagosRealizados}</td>
                                                             <td><button data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => getPagosId(coche)} className="btn btn-outline-primary btn-sm"><i className="far fa-eye"></i></button></td>
                                                         </tr>
                                                     )
@@ -176,30 +188,25 @@ export const GestControlPago = () => {
                                             </thead>
                                             <tbody >
                                                 {
-                                                    pagosCoche.length < 1 ?
-                                                        <div className="alert alert-primary text-center" role="alert">
-                                                            No existe informacion para mostrar
-                                                        </div> :
-                                                        <>
-                                                            {pagosCoche.map((pago, index) => {
-                                                                return (
-                                                                    <tr key={pago._id} className="text-center">
-                                                                        <td>{index + 1}</td>
-                                                                        <td>
-                                                                            {pago.dteFechaPagoInicio ? moment(pago.dteFechaPagoInicio).add(1, 'days').format('LL') : 'N/A'}
-                                                                        </td>
-                                                                        <td>
-                                                                            {pago.dteFechaPagoFin ? moment(pago.dteFechaPagoFin).add(1, 'days').format('LL') : 'N/A'}
-                                                                        </td>
+                                                    <>
+                                                        {pagosCoche.map((pago, index) => {
+                                                            return (
+                                                                <tr key={pago._id} className="text-center">
+                                                                    <td>{index + 1}</td>
+                                                                    <td>
+                                                                        {pago.dteFechaPagoInicio ? moment(pago.dteFechaPagoInicio).add(1, 'days').format('LL') : 'N/A'}
+                                                                    </td>
+                                                                    <td>
+                                                                        {pago.dteFechaPagoFin ? moment(pago.dteFechaPagoFin).add(1, 'days').format('LL') : 'N/A'}
+                                                                    </td>
 
-                                                                        <td>{pago.nmbCantidad}</td>
-                                                                        <td className="text-center"><button disabled={mostrar} className="btn btn-outline-primary  p-1 btn-sm" onClick={() => actualizar(pago._id, pago)} > <i className="far fa-edit" ></i></button></td>
-                                                                    </tr>
-                                                                )
-                                                            })}
-                                                        </>
+                                                                    <td>{pago.nmbCantidad}</td>
+                                                                    <td className="text-center"><button disabled={mostrar} className="btn btn-outline-primary  p-1 btn-sm" onClick={() => actualizar(pago._id, pago)} > <i className="far fa-edit" ></i></button></td>
+                                                                </tr>
+                                                            )
+                                                        })}
+                                                    </>
                                                 }
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -210,7 +217,7 @@ export const GestControlPago = () => {
                                     <p class="text-center"><strong>Total:</strong>${totalAuto}.00</p>
                                 </>
                                 :
-                                <ActualizarControlPago id={id} setReload={setReload} reload={reload} />
+                                <EliminarControlPago id={id} setReload={setReload} reload={reload} />
                             }
 
                         </div>

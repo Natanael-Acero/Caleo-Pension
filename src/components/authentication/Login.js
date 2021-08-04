@@ -40,13 +40,21 @@ export const Login = () => {
 
 
 
+                }).catch(err => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        text: err.response ? err.response.data.err.message : 'Error en el sistema',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 })
         } catch (error) {
             // console.log(error.response.status, 'error');
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                text: error.response.status == 400 ? error.response.data.err.message : 'Error en el sistema',
+                text: error,
                 showConfirmButton: false,
                 timer: 1500
             })
