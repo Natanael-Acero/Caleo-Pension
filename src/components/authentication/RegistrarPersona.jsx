@@ -3,7 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 import { Enviroments } from '../../enviroments/enviroments.url';
 import { useHistory } from 'react-router';
-
+import DOMPurify from 'dompurify';
 
 export const RegistrarPersona = ({ setReload }) => {
     const history = useHistory();
@@ -31,6 +31,13 @@ export const RegistrarPersona = ({ setReload }) => {
         e.preventDefault();
         setData({ ...data })
         try {
+            DOMPurify.sanitize(data.strNombre);
+            DOMPurify.sanitize(data.strPrimerApellido);
+            DOMPurify.sanitize(data.strSegundoApellido);
+            DOMPurify.sanitize(data.strContrasena);
+            DOMPurify.sanitize(data.strCorreo);
+            DOMPurify.sanitize(data.strDireccion);
+            DOMPurify.sanitize(data.nmbTelefono);
             await axios.post(`${Enviroments.urlBack}/api/persona/`, data)
                 .then(res => {
                     setReload(reload => !reload);
