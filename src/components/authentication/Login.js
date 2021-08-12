@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import { useHistory } from 'react-router';
 import { Navigation } from '../authentication/navigation';
 import { Enviroments } from '../../enviroments/enviroments.url';
+import DOMPurify from 'dompurify';
 export const Login = () => {
     const history = useHistory();
     const { setUser } = useContext(UserContext);
@@ -26,6 +27,8 @@ export const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            DOMPurify.sanitize(data.strContrasena);
+            DOMPurify.sanitize(data.strCorreo);
             await axios.post(`${Enviroments.urlBack}/api/login/`, data)
                 .then(res => {
                     Swal.fire({
