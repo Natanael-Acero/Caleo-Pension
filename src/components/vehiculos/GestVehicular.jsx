@@ -23,6 +23,8 @@ export const GestVehicular = () => {
 
     const [authorization, setAuthorization] = useState(localStorage.getItem('authorization'));
 
+    const [cargando, setCargando] = useState(false);
+
     const [mostrarActualizar, setMostrarActualizar] = useState({
         mostrar: false,
         id: '',
@@ -114,6 +116,7 @@ export const GestVehicular = () => {
     }
     const uploadFotos = async () => {
         const idVehiculo = info._id
+        setCargando(true);
         for (let img = 0; img < images.length; img++) {
             const formD = new FormData;
             formD.append('archivo', images[img].file, images[img].file.name);
@@ -124,6 +127,7 @@ export const GestVehicular = () => {
                         icon: 'success',
                         text: 'Las imagenes fueron agregadas exitosamente'
                     })
+                    setCargando(false);
                     setImages([]);
                     setBlnFotos(false)
 
@@ -335,14 +339,13 @@ export const GestVehicular = () => {
                                                                         )
                                                                     })
                                                             }
-
                                                         </div>
-
                                                     </div>
                                                 }
                                                 {
-                                                    blnFotos &&
+                                                    blnFotos && !cargando &&
                                                     <div>
+
                                                         <ImageUploading
                                                             multiple
                                                             value={images}
@@ -359,6 +362,7 @@ export const GestVehicular = () => {
 
                                                             }) => (
                                                                 <div className="text-center" >
+
                                                                     {
                                                                         images.length < 1 ? <button className="btn btn-outline-success btn-sm mt-3 " onClick={onImageUpload}>
                                                                             Subir Imagenes <i class="fas fa-upload m-2"></i>
@@ -393,16 +397,24 @@ export const GestVehicular = () => {
 
                                                                     </div>
 
+
                                                                 </div>
                                                             )}
                                                         </ImageUploading>
                                                     </div>
                                                 }
+                                                {cargando &&
+                                                    <div className="text-center">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="sr-only text-center">Loading...</span>
+                                                        </div>
+                                                    </div>
 
+                                                }
 
                                             </div>
                                             <div className="modal-footer">
-                                                {images.length > 0 && blnFotos && <button type="button" className="btn btn-success" onClick={() => uploadFotos()} >Guardar</button>}
+                                                {images.length > 0 && blnFotos && <button type="button" className="btn btn-success" onClick={() => uploadFotos()} disabled={cargando == true} >Guardar</button>}
                                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             </div>
                                         </div>
