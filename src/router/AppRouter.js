@@ -14,9 +14,6 @@ import { AuthRouter } from '../router/AuthRouter'
 import ProtectedRoute from './ProtectedRoute';
 import { Perfil } from '../components/account/Perfil';
 
-
-
-
 export const AppRouter = () => {
 
     return (
@@ -50,7 +47,6 @@ export const AppRouter = () => {
                     <Redirect to="/auth/login" />
 
                 </Switch>
-
             </div>
         </Router>
     )

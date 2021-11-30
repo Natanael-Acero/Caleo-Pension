@@ -7,7 +7,6 @@ import {
 import { Login } from '../components/authentication/Login';
 import { RecoverPassword } from '../components/authentication/RecoverPassword';
 import { Register } from '../components/authentication/Register';
-
 export const AuthRouter = () => {
     return (
         <div>
