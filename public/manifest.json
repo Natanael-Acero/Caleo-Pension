@@ -1,6 +1,6 @@
 {
-  "short_name": "CALEO",
-  "name": "Gestión de estacionamiento y pensión",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +18,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "./auth/login",
+  "start_url": ".",
   "display": "standalone",
-  "theme_color": "#FB8F40",
+  "theme_color": "#000000",
   "background_color": "#ffffff"
 }
