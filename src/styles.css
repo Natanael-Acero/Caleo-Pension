@@ -9,7 +9,7 @@ body{
    padding-bottom: 10%;
 }
 
- @media only screen and (height: 823px) {
+ /* @media only screen and (height: 823px) {
     .container-buttom{
      padding-top: 20%;
      padding-bottom: 20%;
@@ -32,15 +32,9 @@ body{
      padding-top: 10%;
      padding-bottom: 0%;
      }
-    }
+    } */
 
-.footer-flex {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  color: white;
-  text-align: center;
-}
+
 .tableFixHead thead  { position:sticky; top: 0; z-index: 1; }
 
 /* Just common table stuff. Really. */
