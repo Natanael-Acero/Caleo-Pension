@@ -50,6 +50,7 @@ export const AppRouter = () => {
                     <Redirect to="/auth/login" />
 
                 </Switch>
+
             </div>
         </Router>
     )

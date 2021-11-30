@@ -1,19 +1,43 @@
 body{
    background-image: url('./assets/images/27488.jpg');
 }
+
 .tableFixHead          {  height: 500px; overflow-y: scroll; overflow-x: scroll; padding:0%}
 
 .container-buttom{
-   padding-top: 5%;
-   padding-bottom: 5%;
+   padding-top: 10%;
+   padding-bottom: 10%;
 }
+
+ @media only screen and (height: 823px) {
+    .container-buttom{
+     padding-top: 20%;
+     padding-bottom: 20%;
+     }
+    }
+    @media only screen and (height: 731px) {
+    .container-buttom{
+     padding-top: 10%;
+     padding-bottom: 10%;
+     }
+    }
+     @media only screen and (height: 568px) {
+    .container-buttom{
+     padding-top: 0%;
+     padding-bottom: 0%;
+     }
+    }
+     @media only screen and (height: 640px) {
+    .container-buttom{
+     padding-top: 10%;
+     padding-bottom: 0%;
+     }
+    }
 
 .footer-flex {
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%;
-  background-color: red;
   color: white;
   text-align: center;
 }
@@ -37,6 +61,7 @@ thead {background: white; top:5%}
 ::-webkit-scrollbar-thumb {
   background: #888; 
 }
+
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {

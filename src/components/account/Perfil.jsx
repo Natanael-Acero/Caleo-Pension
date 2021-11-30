@@ -94,7 +94,7 @@ export const Perfil = () => {
         { color: '#dc3545', obscuro: true },
         { color: '#ffff', obscuro: false },
         { color: '#06d79c', obscuro: false },
-        { color: '#ff4500', obscuro: true }
+        { color: '#FB8F40', obscuro: true }
     ]
     const arrayTemasDegradado = [
         { color: 'linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)', obscuro: true },
