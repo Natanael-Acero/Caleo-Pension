@@ -142,12 +142,12 @@ export const Perfil = () => {
         { color: '#dc3545', obscuro: true },
         { color: '#ffff', obscuro: false },
         { color: '#06d79c', obscuro: false },
+        { color: '#FB8F40', obscuro: true }
     ]
     const arrayTemasDegradado = [
         { color: 'linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)', obscuro: true },
         { color: 'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)', obscuro: false },
-        { color: 'linear-gradient(90deg, #9ebd13 0%, #008552 100%)', obscuro: false },
-        { color: 'radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,0.29735644257703087) 100%)', obscuro: false },
+        { color: 'linear-gradient(90deg, #9ebd13 0%, #008552 100%)', obscuro: false }, ,
     ]
 
 

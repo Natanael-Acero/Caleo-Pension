@@ -14,9 +14,6 @@ import { AuthRouter } from '../router/AuthRouter'
 import ProtectedRoute from './ProtectedRoute';
 import { Perfil } from '../components/account/Perfil';
 
-
-
-
 export const AppRouter = () => {
 
 

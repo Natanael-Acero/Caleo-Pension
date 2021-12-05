@@ -29,22 +29,8 @@ export const Footer = () => {
         getWeather()
     }, [])
     return (
-        <div className="footer-inline">
-            <div class="text-muted footer-flex p-1" style={{ background: color }}>
-                <div class="footer-copyright text-center " style={{ color: colorLetras == 'true' ? 'white' : 'black' }}>
-                    <div className="row">
-                        <div className="col-md-4 col-sm-12" >
-                            © {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(Date.now())}   Copyright:  <a href="https://www.utags.edu.mx/" target="_blank" style={{ color: colorLetras == 'true' ? 'white' : 'black' }}> UTAGS.edu.mx</a>
-                        </div>
-                        <div className="col-md-4 col-sm-12">
-                            <a target="_blank" style={{ color: colorLetras == 'true' ? 'white' : 'black' }}>{decoded.usuario.strCorreo}</a>
-                        </div>
-                        <div className="col-md-4 col-sm-12">
-                            <a target="_blank" style={{ color: colorLetras == 'true' ? 'white' : 'black' }}>Clima: °{weather}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        <div></div>
+
     )
 }

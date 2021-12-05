@@ -29,23 +29,20 @@
   max-width: 70px;
   transform: revert;
   }
-  
-  .card-footer{
-    position: fixed;
-    Width: 100%;
-    bottom: 0;
+  .footer-svg{
+    display: none;
   }
-   
+  
 
     @media only screen and (max-width: 990px) {
      #navbarGrande{
          display: none;
      }
-     .footer-inline{
-       display: none;
-     }
       #navbarChico{
        display:inline;
      }
-  
+     .footer-svg{
+          bottom: 0;
+          display: inline;
+     }
     }
