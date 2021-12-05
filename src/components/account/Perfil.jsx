@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import jwt_decode from "jwt-decode";
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router';
@@ -8,8 +8,54 @@ import { Enviroments } from '../../enviroments/enviroments.url';
 import FormData from 'form-data';
 import ImageUploading from 'react-images-uploading';
 import noImage from '../../assets/images/no-image.png';
+import Camera from 'react-camera-lib';
 export const Perfil = () => {
     const history = useHistory();
+     const cameraRef = useRef(null);
+
+     useEffect(() => {
+         console.log(cameraRef.current);
+         cameraRef.current.video.className = "w-100 h-100"
+     }, [])
+    const upload = useCallback(()=>
+  {
+    const file = cameraRef.current?.getImageFile();
+
+    let formData = new FormData();
+    formData.append("archivo", file, file.name);
+ Swal.fire({
+                title: 'Sí deseas cambiar la imagen deberas inicar sesión nuevamente',
+                text: '¿Estas seguro?',
+                imageUrl: cameraRef.current.src,
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: `Confirmar`,
+                reverseButtons: true
+            }).then(result => {
+                if(result.value){
+                     axios.put(`${Enviroments.urlBack}/api/carga/?ruta=personas&id=${decoded.usuario._id}`, formData).then(res => {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            text: res.data.msg,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        history.push('/auth/login');
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }
+            })
+   
+   
+  },[cameraRef]);
     let decoded = localStorage.getItem('authorization');
     if (localStorage.getItem("authorization")) {
         decoded = jwt_decode(localStorage.getItem("authorization"));
@@ -69,6 +115,8 @@ export const Perfil = () => {
 
 
     };
+
+    
 
 
     const [data, setData] = useState(decoded.usuario);
@@ -207,7 +255,9 @@ export const Perfil = () => {
                                                     <div key={index} className="image-item">
                                                         <img id="output" src={image['data_url']} style={{ maxWidth: '80%', width: '80%', borderRadius: '20%' }} className="img-fluid" alt="..." />
                                                         <p></p>
-                                                        <i class="fas fa-chevron-circle-up changeImg fa-lg" style={{ cursor: 'pointer' }} onClick={() => onImageUpdate(index)} data-bs-toggle="tooltip" data-bs-placement="end" title="Cambiar Imagen"></i>
+                                                        <i className="fas fa-chevron-circle-up changeImg fa-lg" style={{ cursor: 'pointer' }} onClick={() => onImageUpdate(index)} data-bs-toggle="tooltip" data-bs-placement="end" title="Cambiar Imagen"></i>
+                                                        
+                                           
                                                     </div>
 
                                                 ))}
@@ -215,6 +265,10 @@ export const Perfil = () => {
                                             </div>
                                         )}
                                     </ImageUploading>
+                                                               <div className="w-100 h-100">
+                                                                     <Camera ref={cameraRef}/>
+                                                               </div>
+                                                        <i className="fas fa-camera changeImg fa-lg" style={{ cursor: 'pointer' }} onClick={upload} data-bs-toggle="tooltip" data-bs-placement="end" title="Cambiar Imagen"></i>
 
                                 </div>
 

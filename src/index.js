@@ -5,6 +5,8 @@ import './styles.css';
 import * as moment from 'moment'
 import momentFR from 'moment/locale/es-mx'
 moment.locale('es-mx', momentFR);
+
+// inicializarFirebase();
 ReactDOM.render(
   <WebApp />,
   document.getElementById('root')

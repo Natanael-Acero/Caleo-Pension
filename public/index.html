@@ -56,7 +56,9 @@
         // Try to register the service worker.
         try {
           const reg = await navigator.serviceWorker.register('../../worker.js');
+          const msg = await navigator.serviceWorker.register('../../firebase-messaging-sw.js');
           console.log('Service worker registered! 😎', reg);
+          console.log('Firebase SW', msg);
         } catch (err) {
           console.log('😥 Service worker registration failed: ', err);
         }
